@@ -78,10 +78,10 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ### Client Component에서 사용
 
 ```tsx
-'use client';
+"use client";
 
-import { useClerkSupabaseClient } from '@/lib/supabase/clerk-client';
-import { useEffect, useState } from 'react';
+import { useClerkSupabaseClient } from "@/lib/supabase/clerk-client";
+import { useEffect, useState } from "react";
 
 export default function TasksPage() {
   const supabase = useClerkSupabaseClient();
@@ -90,9 +90,9 @@ export default function TasksPage() {
   useEffect(() => {
     async function loadTasks() {
       const { data, error } = await supabase
-        .from('tasks')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .from("tasks")
+        .select("*")
+        .order("created_at", { ascending: false });
 
       if (!error && data) {
         setTasks(data);
@@ -103,9 +103,7 @@ export default function TasksPage() {
   }, [supabase]);
 
   async function createTask(name: string) {
-    const { data, error } = await supabase
-      .from('tasks')
-      .insert({ name });
+    const { data, error } = await supabase.from("tasks").insert({ name });
 
     if (!error) {
       // 성공
@@ -127,16 +125,16 @@ export default function TasksPage() {
 ### Server Component에서 사용
 
 ```tsx
-import { createClerkSupabaseClient } from '@/lib/supabase/server';
+import { createClerkSupabaseClient } from "@/lib/supabase/server";
 
 export default async function TasksPage() {
   // ⚠️ 중요: createClerkSupabaseClient는 async 함수이므로 await 필요
   const supabase = await createClerkSupabaseClient();
 
   const { data: tasks, error } = await supabase
-    .from('tasks')
-    .select('*')
-    .order('created_at', { ascending: false });
+    .from("tasks")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   if (error) {
     throw error;
@@ -156,20 +154,18 @@ export default async function TasksPage() {
 ### Server Action에서 사용
 
 ```ts
-'use server';
+"use server";
 
-import { createClerkSupabaseClient } from '@/lib/supabase/server';
+import { createClerkSupabaseClient } from "@/lib/supabase/server";
 
 export async function addTask(name: string) {
   // ⚠️ 중요: createClerkSupabaseClient는 async 함수이므로 await 필요
   const supabase = await createClerkSupabaseClient();
 
-  const { data, error } = await supabase
-    .from('tasks')
-    .insert({ name });
+  const { data, error } = await supabase.from("tasks").insert({ name });
 
   if (error) {
-    throw new Error('Failed to add task');
+    throw new Error("Failed to add task");
   }
 
   return data;
@@ -232,6 +228,7 @@ USING (
 ### 주의사항
 
 1. **개발 환경**: 개발 중에는 RLS를 비활성화할 수 있습니다:
+
    ```sql
    ALTER TABLE public.tasks DISABLE ROW LEVEL SECURITY;
    ```
@@ -280,6 +277,7 @@ SELECT * FROM tasks;
 **원인**: RLS 정책이 활성화되어 있지만 적절한 정책이 없거나, 정책 조건이 맞지 않음
 
 **해결**:
+
 1. RLS 정책이 올바르게 설정되었는지 확인
 2. `auth.jwt()->>'sub'`가 올바른 Clerk user ID를 반환하는지 확인
 3. 개발 중이라면 RLS를 일시적으로 비활성화
@@ -289,6 +287,7 @@ SELECT * FROM tasks;
 **원인**: Clerk 세션 토큰이 Supabase에 전달되지 않음
 
 **해결**:
+
 1. Clerk Dashboard에서 Supabase 통합이 활성화되었는지 확인
 2. Supabase Dashboard에서 Clerk가 third-party provider로 추가되었는지 확인
 3. 환경 변수가 올바르게 설정되었는지 확인
@@ -298,6 +297,7 @@ SELECT * FROM tasks;
 **원인**: RLS가 비활성화되어 있거나 정책이 올바르지 않음
 
 **해결**:
+
 1. RLS가 활성화되어 있는지 확인: `SELECT * FROM pg_tables WHERE tablename = 'tasks' AND rowsecurity = true;`
 2. RLS 정책이 올바르게 설정되었는지 확인
 3. 정책에서 `TO authenticated` 절이 포함되어 있는지 확인
@@ -311,9 +311,11 @@ SELECT * FROM tasks;
 ## 마이그레이션 파일
 
 RLS 정책이 포함된 마이그레이션 파일:
+
 - `supabase/migrations/20250103000000_setup_clerk_rls.sql`
 
 이 파일에는:
+
 - Users 테이블 RLS 정책 (주석 처리)
 - Tasks 예제 테이블 및 RLS 정책
 - 인덱스 및 트리거 설정
@@ -323,4 +325,3 @@ RLS 정책이 포함된 마이그레이션 파일:
 1. 프로덕션 배포 전 RLS 정책 활성화
 2. 추가 테이블에 대한 RLS 정책 작성
 3. 복잡한 권한 로직이 필요한 경우 함수 기반 RLS 정책 고려
-

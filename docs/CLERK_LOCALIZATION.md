@@ -79,7 +79,7 @@ export const customKoKR = {
   ...koKR,
   unstable__errors: {
     ...koKR.unstable__errors,
-    not_allowed_access: 
+    not_allowed_access:
       "이 이메일 도메인은 접근이 허용되지 않았습니다. 접근 권한이 필요하시면 관리자에게 문의해주세요.",
     form_identifier_not_found:
       "입력하신 이메일 또는 사용자 이름을 찾을 수 없습니다.",
@@ -92,9 +92,7 @@ export const customKoKR = {
 ```tsx
 import { customKoKR } from "@/lib/clerk/localization";
 
-<ClerkProvider localization={customKoKR}>
-  ...
-</ClerkProvider>
+<ClerkProvider localization={customKoKR}>...</ClerkProvider>;
 ```
 
 ### 로그인/회원가입 텍스트 커스터마이징
@@ -133,21 +131,21 @@ Clerk 로컬라이제이션 객체는 다음 필드를 포함합니다:
 
 Clerk는 다음 언어를 지원합니다:
 
-| 언어 | 키 | BCP 47 태그 |
-|------|-----|-------------|
-| 한국어 | `koKR` | `ko-KR` |
-| 영어 (미국) | `enUS` | `en-US` |
-| 영어 (영국) | `enGB` | `en-GB` |
-| 일본어 | `jaJP` | `ja-JP` |
-| 중국어 (간체) | `zhCN` | `zh-CN` |
-| 중국어 (번체) | `zhTW` | `zh-TW` |
-| 프랑스어 | `frFR` | `fr-FR` |
-| 독일어 | `deDE` | `de-DE` |
-| 스페인어 | `esES` | `es-ES` |
-| 포르투갈어 (브라질) | `ptBR` | `pt-BR` |
-| 러시아어 | `ruRU` | `ru-RU` |
-| 아랍어 | `arSA` | `ar-SA` |
-| 힌디어 | `hiIN` | `hi-IN` |
+| 언어                  | 키     | BCP 47 태그 |
+| --------------------- | ------ | ----------- |
+| 한국어                | `koKR` | `ko-KR`     |
+| 영어 (미국)           | `enUS` | `en-US`     |
+| 영어 (영국)           | `enGB` | `en-GB`     |
+| 일본어                | `jaJP` | `ja-JP`     |
+| 중국어 (간체)         | `zhCN` | `zh-CN`     |
+| 중국어 (번체)         | `zhTW` | `zh-TW`     |
+| 프랑스어              | `frFR` | `fr-FR`     |
+| 독일어                | `deDE` | `de-DE`     |
+| 스페인어              | `esES` | `es-ES`     |
+| 포르투갈어 (브라질)   | `ptBR` | `pt-BR`     |
+| 러시아어              | `ruRU` | `ru-RU`     |
+| 아랍어                | `arSA` | `ar-SA`     |
+| 힌디어                | `hiIN` | `hi-IN`     |
 | 기타 40개 이상의 언어 |
 
 전체 목록은 [Clerk 공식 문서](https://clerk.com/docs/guides/customizing-clerk/localization#languages)를 참고하세요.
@@ -161,10 +159,8 @@ Clerk는 다음 언어를 지원합니다:
 import { jaJP } from "@clerk/localizations";
 
 <ClerkProvider localization={jaJP}>
-  <html lang="ja">
-    ...
-  </html>
-</ClerkProvider>
+  <html lang="ja">...</html>
+</ClerkProvider>;
 ```
 
 ## 문제 해결
@@ -174,35 +170,40 @@ import { jaJP } from "@clerk/localizations";
 **원인 및 해결**:
 
 1. **패키지가 설치되지 않음**
+
    ```bash
    pnpm add @clerk/localizations
    ```
 
 2. **ClerkProvider에 localization prop이 전달되지 않음**
+
    ```tsx
    // ❌ 잘못된 예
    <ClerkProvider>
-   
+
    // ✅ 올바른 예
    <ClerkProvider localization={koKR}>
    ```
 
 3. **잘못된 import**
+
    ```tsx
    // ❌ 잘못된 예
    import { koKR } from "@clerk/nextjs";
-   
+
    // ✅ 올바른 예
    import { koKR } from "@clerk/localizations";
    ```
 
 ### 문제: 일부 텍스트가 여전히 영어로 표시됨
 
-**원인**: 
+**원인**:
+
 - Clerk Account Portal은 로컬라이제이션을 지원하지 않습니다
 - 커스텀 컴포넌트의 텍스트는 로컬라이제이션의 영향을 받지 않습니다
 
 **해결**:
+
 - Account Portal은 영어로 유지됩니다 (Clerk 제한사항)
 - 커스텀 컴포넌트의 텍스트는 직접 번역해야 합니다
 
@@ -211,6 +212,7 @@ import { jaJP } from "@clerk/localizations";
 **원인**: 로컬라이제이션 객체의 구조를 잘못 이해함
 
 **해결**:
+
 1. `@clerk/localizations` 패키지의 타입 정의 확인
 2. TypeScript 자동완성 활용
 3. [Clerk 공식 문서](https://clerk.com/docs/guides/customizing-clerk/localization) 참고
@@ -224,7 +226,3 @@ import { jaJP } from "@clerk/localizations";
 ## 실험적 기능 안내
 
 > ⚠️ **주의**: Clerk 로컬라이제이션 기능은 현재 실험적(experimental) 상태입니다. 예상치 못한 동작이 발생할 수 있으며, 문제가 발생하면 [Clerk 지원팀](https://clerk.com/contact/support)에 문의하세요.
-
-
-
-

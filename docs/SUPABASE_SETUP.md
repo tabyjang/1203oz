@@ -50,7 +50,8 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
-**참고**: 
+**참고**:
+
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`는 Supabase 공식 문서의 `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`와 동일합니다
 - `SUPABASE_SERVICE_ROLE_KEY`는 서버 사이드에서만 사용하며, 절대 클라이언트에 노출하지 마세요
 
@@ -61,7 +62,7 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ### 1. Server Component용 (`lib/supabase/server.ts`)
 
 ```typescript
-import { createClerkSupabaseClient } from '@/lib/supabase/server';
+import { createClerkSupabaseClient } from "@/lib/supabase/server";
 
 export default async function MyPage() {
   const supabase = await createClerkSupabaseClient();
@@ -70,6 +71,7 @@ export default async function MyPage() {
 ```
 
 **특징**:
+
 - `@supabase/ssr`의 `createServerClient` 사용
 - Cookie 기반 세션 관리
 - Clerk 세션 토큰 자동 전달
@@ -77,9 +79,9 @@ export default async function MyPage() {
 ### 2. Client Component용 (`lib/supabase/clerk-client.ts`)
 
 ```typescript
-'use client';
+"use client";
 
-import { useClerkSupabaseClient } from '@/lib/supabase/clerk-client';
+import { useClerkSupabaseClient } from "@/lib/supabase/clerk-client";
 
 export default function MyComponent() {
   const supabase = useClerkSupabaseClient();
@@ -88,6 +90,7 @@ export default function MyComponent() {
 ```
 
 **특징**:
+
 - `@supabase/ssr`의 `createBrowserClient` 사용
 - React Hook으로 제공
 - Clerk 세션 토큰 자동 전달
@@ -95,7 +98,7 @@ export default function MyComponent() {
 ### 3. 공개 데이터용 (`lib/supabase/client.ts`)
 
 ```typescript
-import { createClient } from '@/lib/supabase/client';
+import { createClient } from "@/lib/supabase/client";
 
 export default function PublicData() {
   const supabase = createClient();
@@ -104,13 +107,14 @@ export default function PublicData() {
 ```
 
 **특징**:
+
 - 인증 없이 공개 데이터 접근
 - RLS 정책이 `to anon`인 데이터만 접근 가능
 
 ### 4. 관리자 권한용 (`lib/supabase/service-role.ts`)
 
 ```typescript
-import { getServiceRoleClient } from '@/lib/supabase/service-role';
+import { getServiceRoleClient } from "@/lib/supabase/service-role";
 
 export async function adminFunction() {
   const supabase = getServiceRoleClient();
@@ -119,6 +123,7 @@ export async function adminFunction() {
 ```
 
 **특징**:
+
 - RLS 정책 우회
 - 서버 사이드에서만 사용
 - 관리자 작업에 사용
@@ -128,15 +133,15 @@ export async function adminFunction() {
 ### Server Component 예제
 
 ```tsx
-import { createClerkSupabaseClient } from '@/lib/supabase/server';
+import { createClerkSupabaseClient } from "@/lib/supabase/server";
 
 export default async function TasksPage() {
   const supabase = await createClerkSupabaseClient();
-  
+
   const { data: tasks, error } = await supabase
-    .from('tasks')
-    .select('*')
-    .order('created_at', { ascending: false });
+    .from("tasks")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   if (error) {
     throw error;
@@ -156,10 +161,10 @@ export default async function TasksPage() {
 ### Client Component 예제
 
 ```tsx
-'use client';
+"use client";
 
-import { useClerkSupabaseClient } from '@/lib/supabase/clerk-client';
-import { useEffect, useState } from 'react';
+import { useClerkSupabaseClient } from "@/lib/supabase/clerk-client";
+import { useEffect, useState } from "react";
 
 export default function TasksPage() {
   const supabase = useClerkSupabaseClient();
@@ -168,9 +173,9 @@ export default function TasksPage() {
   useEffect(() => {
     async function loadTasks() {
       const { data, error } = await supabase
-        .from('tasks')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .from("tasks")
+        .select("*")
+        .order("created_at", { ascending: false });
 
       if (!error && data) {
         setTasks(data);
@@ -194,19 +199,17 @@ export default function TasksPage() {
 ### Server Action 예제
 
 ```ts
-'use server';
+"use server";
 
-import { createClerkSupabaseClient } from '@/lib/supabase/server';
+import { createClerkSupabaseClient } from "@/lib/supabase/server";
 
 export async function addTask(name: string) {
   const supabase = await createClerkSupabaseClient();
 
-  const { data, error } = await supabase
-    .from('tasks')
-    .insert({ name });
+  const { data, error } = await supabase.from("tasks").insert({ name });
 
   if (error) {
-    throw new Error('Failed to add task');
+    throw new Error("Failed to add task");
   }
 
   return data;
@@ -221,7 +224,7 @@ Supabase 공식 문서는 Supabase Auth를 사용하는 경우를 다룹니다:
 
 ```typescript
 // 공식 가이드 (Supabase Auth 사용)
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from "@/lib/supabase/server";
 
 export default async function Page() {
   const supabase = await createClient();
@@ -235,7 +238,7 @@ export default async function Page() {
 
 ```typescript
 // 이 프로젝트 (Clerk 통합)
-import { createClerkSupabaseClient } from '@/lib/supabase/server';
+import { createClerkSupabaseClient } from "@/lib/supabase/server";
 
 export default async function Page() {
   const supabase = await createClerkSupabaseClient();
@@ -244,6 +247,7 @@ export default async function Page() {
 ```
 
 **주요 차이점**:
+
 - `accessToken` 옵션을 통해 Clerk 세션 토큰 전달
 - Supabase Auth 대신 Clerk 인증 사용
 - RLS 정책에서 `auth.jwt()->>'sub'`로 Clerk user ID 확인
@@ -254,7 +258,3 @@ export default async function Page() {
 - [Supabase SSR Package](https://supabase.com/docs/guides/auth/server-side/creating-a-client)
 - [Clerk Supabase Integration](https://clerk.com/docs/guides/development/integrations/databases/supabase)
 - [프로젝트 통합 가이드](./CLERK_SUPABASE_INTEGRATION.md)
-
-
-
-
