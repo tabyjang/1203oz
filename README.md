@@ -314,6 +314,44 @@ pnpm start
 pnpm lint
 ```
 
+## 🚀 배포
+
+### Vercel 배포
+
+이 프로젝트는 Vercel에 최적화되어 있습니다. 자세한 배포 가이드는 [배포 가이드 문서](./docs/DEPLOYMENT.md)를 참고하세요.
+
+**빠른 배포:**
+
+1. [Vercel](https://vercel.com)에 GitHub 저장소 연결
+2. 환경 변수 설정 (Clerk, Supabase, Toss Payments)
+3. 배포 실행
+
+**필수 환경 변수:**
+
+```env
+# Clerk
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/
+NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
+
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+NEXT_PUBLIC_STORAGE_BUCKET=uploads
+
+# Toss Payments (테스트 모드)
+NEXT_PUBLIC_TOSS_PAYMENTS_CLIENT_KEY=
+```
+
+> **📚 자세한 배포 가이드**: [docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md) 참고
+
+### 배포 전 체크리스트
+
+배포 전 전체 사용자 플로우를 점검하세요. [테스트 체크리스트](./docs/TESTING_CHECKLIST.md)를 참고하세요.
+
 ## 추가 설정 및 팁
 
 ### Clerk 한국어 설정
