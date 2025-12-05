@@ -233,6 +233,22 @@ cp .env.example .env
    NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL="/"
    ```
 
+**6-5. Toss Payments 환경 변수 설정 (테스트 모드)**
+
+1. [Toss Payments 개발자센터](https://developers.tosspayments.com/) 접속
+2. 테스트 계정 생성 또는 로그인
+3. **내 서비스 관리** → **서비스 등록** (또는 기존 서비스 선택)
+4. **시크릿 키** 섹션에서 **클라이언트 키** 복사
+5. `.env` 파일에 추가:
+   ```env
+   NEXT_PUBLIC_TOSS_PAYMENTS_CLIENT_KEY="test_ck_xxxxxxxxxxxxxxxxxxxxx"
+   ```
+
+> **⚠️ 주의**: 
+> - 테스트 모드에서는 `test_ck_`로 시작하는 클라이언트 키를 사용합니다
+> - 프로덕션 환경에서는 `live_ck_`로 시작하는 키를 사용해야 합니다
+> - 클라이언트 키는 공개되어도 안전하지만, 시크릿 키는 절대 공개하지 마세요
+
 #### 7. Cursor MCP 설정 (선택사항)
 
 > Cursor AI를 사용하는 경우, Supabase MCP 서버를 설정하면 AI가 데이터베이스를 직접 조회하고 관리할 수 있습니다.

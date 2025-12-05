@@ -133,25 +133,8 @@ export async function createOrder(
       return { success: false, error: "주문 아이템 생성에 실패했습니다." };
     }
 
-    // 재고 차감
-    for (const cartItem of cartItems) {
-      const { data: product } = await supabase
-        .from("products")
-        .select("stock_quantity")
-        .eq("id", cartItem.product_id)
-        .single();
-
-      if (product) {
-        const newStock = product.stock_quantity - cartItem.quantity;
-        await supabase
-          .from("products")
-          .update({ stock_quantity: newStock })
-          .eq("id", cartItem.product_id);
-      }
-    }
-
-    // 장바구니 비우기
-    await supabase.from("cart_items").delete().eq("clerk_id", clerkId);
+    // 주문 생성 시 재고는 차감하지 않음 (결제 완료 후 차감)
+    // 장바구니는 결제 완료 후 비움
 
     return { success: true, orderId: order.id };
   } catch (error) {
@@ -231,6 +214,84 @@ export async function getOrderById(
   } catch (error) {
     console.error("getOrderById error:", error);
     return null;
+  }
+}
+
+/**
+ * 주문 상태 업데이트
+ * @param orderId 주문 ID
+ * @param status 새로운 주문 상태
+ */
+export async function updateOrderStatus(
+  orderId: string,
+  status: OrderStatus
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const clerkId = await getCurrentUserId();
+    const supabase = await createClerkSupabaseClient();
+
+    // 주문 조회
+    const { data: order, error: orderError } = await supabase
+      .from("orders")
+      .select("*")
+      .eq("id", orderId)
+      .eq("clerk_id", clerkId)
+      .single();
+
+    if (orderError || !order) {
+      return { success: false, error: "주문을 찾을 수 없습니다." };
+    }
+
+    // 주문 상태 업데이트
+    const { error: updateError } = await supabase
+      .from("orders")
+      .update({ status })
+      .eq("id", orderId)
+      .eq("clerk_id", clerkId);
+
+    if (updateError) {
+      console.error("Error updating order status:", updateError);
+      return { success: false, error: "주문 상태 업데이트에 실패했습니다." };
+    }
+
+    // 결제 완료 시 재고 차감 및 장바구니 비우기
+    if (status === "confirmed" && order.status === "pending") {
+      // 주문 아이템 조회
+      const { data: orderItems, error: itemsError } = await supabase
+        .from("order_items")
+        .select("*")
+        .eq("order_id", orderId);
+
+      if (!itemsError && orderItems) {
+        // 재고 차감
+        for (const item of orderItems) {
+          const { data: product } = await supabase
+            .from("products")
+            .select("stock_quantity")
+            .eq("id", item.product_id)
+            .single();
+
+          if (product) {
+            const newStock = product.stock_quantity - item.quantity;
+            await supabase
+              .from("products")
+              .update({ stock_quantity: Math.max(0, newStock) })
+              .eq("id", item.product_id);
+          }
+        }
+      }
+
+      // 장바구니 비우기
+      await supabase.from("cart_items").delete().eq("clerk_id", clerkId);
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("updateOrderStatus error:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "알 수 없는 오류가 발생했습니다.",
+    };
   }
 }
 

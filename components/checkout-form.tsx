@@ -85,8 +85,8 @@ export function CheckoutForm() {
       });
 
       if (result.success && result.orderId) {
-        toast.success("주문이 완료되었습니다!");
-        router.push(`/orders/${result.orderId}`);
+        // 주문 생성 성공 시 결제 단계로 이동
+        router.push(`/checkout/payment?orderId=${result.orderId}`);
       } else {
         toast.error(result.error || "주문 생성에 실패했습니다.");
       }
