@@ -7,7 +7,7 @@
 
 "use client";
 
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { addToCart } from "@/actions/cart";
 import { Button } from "@/components/ui/button";

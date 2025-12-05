@@ -9,7 +9,6 @@ import { notFound } from "next/navigation";
 import { getProductById, getProducts } from "@/actions/products";
 import { ProductDetail } from "@/components/product-detail";
 import { ProductCard } from "@/components/product-card";
-import type { Product } from "@/types/product";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";

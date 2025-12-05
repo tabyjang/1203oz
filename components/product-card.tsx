@@ -24,10 +24,18 @@ export function ProductCard({ product, showCategory = false }: ProductCardProps)
   const isOutOfStock = product.stock_quantity === 0;
 
   return (
-    <Link href={`/products/${product.id}`} className="block h-full">
+    <Link
+      href={`/products/${product.id}`}
+      className="block h-full"
+      aria-label={`${product.name} 상세보기`}
+    >
       <Card className="h-full flex flex-col hover:shadow-lg transition-shadow duration-200">
         {/* 상품 이미지 영역 (플레이스홀더) */}
-        <div className="relative w-full aspect-square bg-gray-100 dark:bg-gray-800 flex items-center justify-center overflow-hidden">
+        <div
+          className="relative w-full aspect-square bg-gray-100 dark:bg-gray-800 flex items-center justify-center overflow-hidden"
+          role="img"
+          aria-label={`${product.name} 이미지`}
+        >
           <div className="text-center p-4">
             <Package className="w-16 h-16 mx-auto text-gray-400 dark:text-gray-600 mb-2" />
             <p className="text-xs text-gray-500 dark:text-gray-400">
@@ -36,7 +44,10 @@ export function ProductCard({ product, showCategory = false }: ProductCardProps)
           </div>
           {/* 재고 부족 배지 */}
           {isOutOfStock && (
-            <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
+            <div
+              className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded"
+              aria-label="품절"
+            >
               품절
             </div>
           )}
@@ -51,7 +62,7 @@ export function ProductCard({ product, showCategory = false }: ProductCardProps)
               </p>
             )}
             {/* 상품명 */}
-            <h3 className="font-semibold text-lg line-clamp-2 min-h-[3rem]">
+            <h3 className="font-semibold text-lg line-clamp-2 min-h-[3rem]" id={`product-name-${product.id}`}>
               {product.name}
             </h3>
             {/* 상품 설명 (간략) */}
@@ -70,7 +81,7 @@ export function ProductCard({ product, showCategory = false }: ProductCardProps)
               {formatPrice(product.price)}
             </p>
             {/* 재고 상태 */}
-            <div className="flex items-center gap-2 text-sm">
+            <div className="flex items-center gap-2 text-sm" aria-live="polite">
               <span
                 className={
                   stockStatus.variant === "destructive"
@@ -79,11 +90,12 @@ export function ProductCard({ product, showCategory = false }: ProductCardProps)
                       ? "text-yellow-600 dark:text-yellow-400"
                       : "text-green-600 dark:text-green-400"
                 }
+                aria-label={`재고 상태: ${stockStatus.text}`}
               >
                 {stockStatus.text}
               </span>
               {!isOutOfStock && (
-                <span className="text-gray-500 dark:text-gray-400">
+                <span className="text-gray-500 dark:text-gray-400" aria-label={`재고 수량: ${product.stock_quantity}개`}>
                   (재고: {product.stock_quantity}개)
                 </span>
               )}

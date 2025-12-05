@@ -7,11 +7,10 @@
 
 "use client";
 
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { createOrder } from "@/actions/orders";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,53 +33,32 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import type { ShippingAddress } from "@/types/order";
+import { createOrderSchema, type CreateOrderInput } from "@/lib/validations/order";
 
-const checkoutSchema = z.object({
-  name: z.string().min(1, "수령인 이름을 입력해주세요"),
-  phone: z
-    .string()
-    .min(1, "연락처를 입력해주세요")
-    .regex(/^[0-9-]+$/, "올바른 연락처 형식이 아닙니다"),
-  postalCode: z
-    .string()
-    .min(1, "우편번호를 입력해주세요")
-    .regex(/^[0-9-]+$/, "올바른 우편번호 형식이 아닙니다"),
-  address: z.string().min(1, "주소를 입력해주세요"),
-  addressDetail: z.string().optional(),
-  orderNote: z.string().optional(),
-});
-
-type CheckoutFormValues = z.infer<typeof checkoutSchema>;
+type CheckoutFormValues = CreateOrderInput;
 
 export function CheckoutForm() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<CheckoutFormValues>({
-    resolver: zodResolver(checkoutSchema),
+    resolver: zodResolver(createOrderSchema),
     defaultValues: {
-      name: "",
-      phone: "",
-      postalCode: "",
-      address: "",
-      addressDetail: "",
+      shippingAddress: {
+        name: "",
+        phone: "",
+        postalCode: "",
+        address: "",
+        addressDetail: "",
+      },
       orderNote: "",
     },
   });
 
   const onSubmit = (values: CheckoutFormValues) => {
     startTransition(async () => {
-      const shippingAddress: ShippingAddress = {
-        name: values.name,
-        phone: values.phone,
-        postalCode: values.postalCode,
-        address: values.address,
-        addressDetail: values.addressDetail,
-      };
-
       const result = await createOrder({
-        shippingAddress,
+        shippingAddress: values.shippingAddress,
         orderNote: values.orderNote,
       });
 
@@ -106,7 +84,7 @@ export function CheckoutForm() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
-              name="name"
+              name="shippingAddress.name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>수령인 이름</FormLabel>
@@ -120,7 +98,7 @@ export function CheckoutForm() {
 
             <FormField
               control={form.control}
-              name="phone"
+              name="shippingAddress.phone"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>연락처</FormLabel>
@@ -138,7 +116,7 @@ export function CheckoutForm() {
             <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
-                name="postalCode"
+                name="shippingAddress.postalCode"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>우편번호</FormLabel>
@@ -153,7 +131,7 @@ export function CheckoutForm() {
 
             <FormField
               control={form.control}
-              name="address"
+              name="shippingAddress.address"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>주소</FormLabel>
@@ -167,7 +145,7 @@ export function CheckoutForm() {
 
             <FormField
               control={form.control}
-              name="addressDetail"
+              name="shippingAddress.addressDetail"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>상세 주소 (선택)</FormLabel>

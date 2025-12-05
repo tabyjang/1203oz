@@ -7,6 +7,7 @@
 
 import { ProductCard } from "@/components/product-card";
 import { Pagination } from "@/components/pagination";
+import { EmptyState } from "@/components/empty-state";
 import type { Product, ProductListParams } from "@/types/product";
 import { PackageSearch } from "lucide-react";
 
@@ -27,18 +28,41 @@ export function ProductList({
 }: ProductListProps) {
   // 빈 상태
   if (products.length === 0) {
+    const getEmptyStateContent = () => {
+      if (currentParams.search) {
+        return {
+          title: "검색 결과가 없습니다",
+          description: `"${currentParams.search}"에 대한 검색 결과가 없습니다. 다른 키워드로 검색해보세요.`,
+        };
+      }
+      if (currentParams.category) {
+        return {
+          title: "해당 카테고리의 상품이 없습니다",
+          description: "다른 카테고리를 선택하거나 전체 상품을 둘러보세요.",
+        };
+      }
+      return {
+        title: "등록된 상품이 없습니다",
+        description: "현재 등록된 상품이 없습니다. 곧 새로운 상품이 추가될 예정입니다.",
+      };
+    };
+
+    const content = getEmptyStateContent();
+
     return (
-      <div className="flex flex-col items-center justify-center py-16">
-        <PackageSearch className="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" />
-        <h3 className="text-xl font-semibold mb-2">상품을 찾을 수 없습니다</h3>
-        <p className="text-gray-600 dark:text-gray-400 text-center max-w-md">
-          {currentParams.search
-            ? `"${currentParams.search}"에 대한 검색 결과가 없습니다.`
-            : currentParams.category
-              ? "해당 카테고리의 상품이 없습니다."
-              : "등록된 상품이 없습니다."}
-        </p>
-      </div>
+      <EmptyState
+        icon={PackageSearch}
+        title={content.title}
+        description={content.description}
+        action={
+          currentParams.search || currentParams.category
+            ? {
+                label: "필터 초기화",
+                href: "/products",
+              }
+            : undefined
+        }
+      />
     );
   }
 

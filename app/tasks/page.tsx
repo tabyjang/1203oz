@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useClerkSupabaseClient } from "@/lib/supabase/clerk-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { LuPlus, LuTrash2, LuCheck, LuX, LuTriangleAlert } from "react-icons/lu";
+import { LuPlus, LuTrash2, LuCheck, LuTriangleAlert } from "react-icons/lu";
 import Link from "next/link";
 
 interface Task {
@@ -28,7 +28,7 @@ export default function TasksPage() {
   const [submitting, setSubmitting] = useState(false);
 
   // Tasks 로드
-  const loadTasks = async () => {
+  const loadTasks = useCallback(async () => {
     if (!user) return;
 
     try {
@@ -53,7 +53,7 @@ export default function TasksPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user, supabase]);
 
   // Task 생성
   const createTask = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -146,7 +146,7 @@ export default function TasksPage() {
     if (isLoaded && user) {
       loadTasks();
     }
-  }, [user, isLoaded]);
+  }, [user, isLoaded, loadTasks]);
 
   if (!isLoaded) {
     return (
@@ -305,7 +305,7 @@ export default function TasksPage() {
             있습니다
           </li>
           <li>
-            <code className="bg-blue-100 px-1 rounded">auth.jwt()-&gt;&gt;'sub'</code>{" "}
+            <code className="bg-blue-100 px-1 rounded">auth.jwt()-&gt;&gt;&apos;sub&apos;</code>{" "}
             함수가 Clerk user ID를 반환하여 데이터를 필터링합니다
           </li>
           <li>

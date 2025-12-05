@@ -13,10 +13,12 @@ import type {
   CreateOrderRequest,
   Order,
   OrderItem,
+  OrderStatus,
   OrderWithItems,
   ShippingAddress,
 } from "@/types/order";
 import { getCartItems } from "./cart";
+import { createOrderSchema, type CreateOrderInput } from "@/lib/validations/order";
 
 /**
  * 현재 사용자의 Clerk ID 가져오기
@@ -34,9 +36,21 @@ async function getCurrentUserId(): Promise<string> {
  * @param request 주문 생성 요청 데이터
  */
 export async function createOrder(
-  request: CreateOrderRequest
+  request: CreateOrderInput
 ): Promise<{ success: boolean; orderId?: string; error?: string }> {
   try {
+    // 입력 검증
+    const validationResult = createOrderSchema.safeParse(request);
+    if (!validationResult.success) {
+      return {
+        success: false,
+        error: validationResult.error.errors[0]?.message || "입력값이 올바르지 않습니다.",
+      };
+    }
+
+    // 검증된 데이터 사용
+    const validatedData = validationResult.data;
+
     const clerkId = await getCurrentUserId();
     const supabase = await createClerkSupabaseClient();
 
@@ -102,8 +116,8 @@ export async function createOrder(
         clerk_id: clerkId,
         total_amount: totalAmount,
         status: "pending",
-        shipping_address: request.shippingAddress as any,
-        order_note: request.orderNote || null,
+        shipping_address: validatedData.shippingAddress as any,
+        order_note: validatedData.orderNote || null,
       })
       .select()
       .single();

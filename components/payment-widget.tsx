@@ -8,7 +8,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { loadPaymentWidget, PaymentWidgetInstance } from "@tosspayments/payment-widget-sdk";
 import { Button } from "@/components/ui/button";
 import { Loader2, CreditCard } from "lucide-react";
@@ -21,7 +20,6 @@ interface PaymentWidgetProps {
 }
 
 export function PaymentWidget({ orderId, amount, customerKey }: PaymentWidgetProps) {
-  const router = useRouter();
   const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
   const paymentMethodsWidgetRef = useRef<any>(null);
   const [isLoading, setIsLoading] = useState(true);

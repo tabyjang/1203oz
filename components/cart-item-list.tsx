@@ -28,7 +28,7 @@ interface CartItemListProps {
 export function CartItemList({ items: initialItems }: CartItemListProps) {
   const router = useRouter();
   const [items, setItems] = useState(initialItems);
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const [updatingIds, setUpdatingIds] = useState<Set<string>>(new Set());
 
   const handleQuantityChange = async (

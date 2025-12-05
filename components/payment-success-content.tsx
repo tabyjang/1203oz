@@ -8,7 +8,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, Loader2, AlertCircle } from "lucide-react";
@@ -18,16 +17,14 @@ import Link from "next/link";
 
 interface PaymentSuccessContentProps {
   orderId?: string;
-  paymentKey?: string;
+  paymentKey?: string; // 향후 사용 예정
   amount?: string;
 }
 
 export function PaymentSuccessContent({
   orderId,
-  paymentKey,
   amount,
 }: PaymentSuccessContentProps) {
-  const router = useRouter();
   const [isProcessing, setIsProcessing] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);

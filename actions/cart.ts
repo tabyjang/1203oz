@@ -14,6 +14,7 @@ import type {
   CartItemWithProduct,
   CartSummary,
 } from "@/types/cart";
+import { addToCartSchema, updateCartQuantitySchema } from "@/lib/validations/cart";
 
 /**
  * 현재 사용자의 Clerk ID 가져오기
@@ -36,6 +37,15 @@ export async function addToCart(
   quantity: number = 1
 ): Promise<{ success: boolean; error?: string }> {
   try {
+    // 입력 검증
+    const validationResult = addToCartSchema.safeParse({ productId, quantity });
+    if (!validationResult.success) {
+      return {
+        success: false,
+        error: validationResult.error.errors[0]?.message || "입력값이 올바르지 않습니다.",
+      };
+    }
+
     const clerkId = await getCurrentUserId();
     const supabase = await createClerkSupabaseClient();
 
@@ -124,8 +134,16 @@ export async function updateCartItemQuantity(
   quantity: number
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    if (quantity <= 0) {
-      return { success: false, error: "수량은 1개 이상이어야 합니다." };
+    // 입력 검증
+    const validationResult = updateCartQuantitySchema.safeParse({
+      cartItemId,
+      quantity,
+    });
+    if (!validationResult.success) {
+      return {
+        success: false,
+        error: validationResult.error.errors[0]?.message || "입력값이 올바르지 않습니다.",
+      };
     }
 
     const clerkId = await getCurrentUserId();

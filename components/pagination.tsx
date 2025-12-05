@@ -15,13 +15,12 @@ import type { ProductListParams } from "@/types/product";
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
-  currentParams: ProductListParams;
+  currentParams?: ProductListParams; // 향후 사용 예정
 }
 
 export function Pagination({
   currentPage,
   totalPages,
-  currentParams,
 }: PaginationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -46,8 +45,8 @@ export function Pagination({
       }
     } else {
       // 현재 페이지 주변 페이지 표시
-      let start = Math.max(1, currentPage - 2);
-      let end = Math.min(totalPages, currentPage + 2);
+      const start = Math.max(1, currentPage - 2);
+      const end = Math.min(totalPages, currentPage + 2);
 
       if (start > 1) {
         pages.push(1);

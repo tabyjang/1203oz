@@ -68,6 +68,14 @@ Next.js 15, Clerk, Supabase를 활용한 모던 SaaS 애플리케이션 템플�
 
 - **[React Hook Form](https://react-hook-form.com/)** - 폼 상태 관리
 - **[Zod](https://zod.dev/)** - 스키마 검증
+- 서버 사이드 입력 검증 강화
+
+### 결제
+
+- **[Toss Payments](https://www.toss.im/)** - 결제 서비스
+  - 테스트 모드 지원
+  - 결제 위젯 통합
+  - 결제 성공/실패 콜백 처리
 
 ## 주요 기능
 
@@ -92,9 +100,10 @@ Next.js 15, Clerk, Supabase를 활용한 모던 SaaS 애플리케이션 템플�
 
 ### 🎨 UI/UX
 - shadcn/ui 기반 모던 컴포넌트
-- 완전한 반응형 디자인
-- 다크/라이트 모드 지원 가능
-- 접근성 준수 (WCAG)
+- 완전한 반응형 디자인 (모바일/태블릿/데스크톱)
+- 다크/라이트 모드 지원
+- 접근성 준수 (WCAG 2.1, ARIA 라벨, 키보드 네비게이션)
+- 일관된 로딩/에러/빈 상태 UI
 
 ### 🏗️ 아키텍처
 - Server Actions 우선 사용
@@ -451,7 +460,14 @@ saas-template/
 │   └── config.toml       # Supabase 프로젝트 설정
 │
 ├── docs/                 # 문서
-│   └── CLERK_SUPABASE_INTEGRATION.md  # Clerk-Supabase 통합 가이드
+│   ├── CLERK_SUPABASE_INTEGRATION.md  # Clerk-Supabase 통합 가이드
+│   ├── CLERK_LOCALIZATION.md          # Clerk 한국어 로컬라이제이션
+│   ├── OPERATION_GUIDE.md             # 운영 가이드
+│   ├── ACCESSIBILITY.md               # 접근성 가이드
+│   ├── DEPLOYMENT.md                  # 배포 가이드
+│   ├── TESTING_CHECKLIST.md           # 테스트 체크리스트
+│   ├── PRD.md                         # 제품 요구사항 문서
+│   └── TODO.md                        # 작업 목록
 │
 ├── .cursor/              # Cursor AI 규칙
 │   └── rules/           # 개발 컨벤션 및 가이드
@@ -484,3 +500,7 @@ saas-template/
 - [Clerk + Supabase 통합 가이드](./docs/CLERK_SUPABASE_INTEGRATION.md)
 - [Supabase 설정 가이드](./docs/SUPABASE_SETUP.md)
 - [Clerk 한국어 로컬라이제이션 가이드](./docs/CLERK_LOCALIZATION.md)
+- [운영 가이드](./docs/OPERATION_GUIDE.md) - 상품/주문 관리, 모니터링, 문제 해결
+- [접근성 가이드](./docs/ACCESSIBILITY.md) - WCAG 2.1 준수, ARIA 라벨, 키보드 네비게이션
+- [배포 가이드](./docs/DEPLOYMENT.md) - Vercel 배포 및 환경 변수 설정
+- [테스트 체크리스트](./docs/TESTING_CHECKLIST.md) - 배포 전 테스트 항목

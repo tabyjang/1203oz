@@ -8,9 +8,7 @@
 import { getCartSummary } from "@/actions/cart";
 import { CartItemList } from "@/components/cart-item-list";
 import { CartSummary } from "@/components/cart-summary";
-import { formatPrice } from "@/lib/utils/format";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/empty-state";
 import { ShoppingBag } from "lucide-react";
 
 export async function CartContent() {
@@ -18,19 +16,15 @@ export async function CartContent() {
 
   if (cartSummary.items.length === 0) {
     return (
-      <div className="text-center py-16">
-        <ShoppingBag className="w-16 h-16 mx-auto text-gray-400 dark:text-gray-600 mb-4" />
-        <h2 className="text-2xl font-semibold mb-2">장바구니가 비어있습니다</h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
-          상품을 추가해보세요
-        </p>
-        <Link href="/products">
-          <Button size="lg">
-            <ShoppingBag className="w-4 h-4 mr-2" />
-            상품 둘러보기
-          </Button>
-        </Link>
-      </div>
+      <EmptyState
+        icon={ShoppingBag}
+        title="장바구니가 비어있습니다"
+        description="상품을 추가하여 쇼핑을 시작해보세요"
+        action={{
+          label: "상품 둘러보기",
+          href: "/products",
+        }}
+      />
     );
   }
 
