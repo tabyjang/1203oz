@@ -29,22 +29,24 @@ export function OrderDetailContent({ order }: OrderDetailContentProps) {
 
   return (
     <div className="space-y-6">
-      {/* 주문 완료 메시지 */}
-      <Card className="bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800">
-        <CardContent className="p-6">
-          <div className="flex items-center gap-4">
-            <CheckCircle2 className="w-12 h-12 text-green-600 dark:text-green-400" />
-            <div>
-              <h2 className="text-2xl font-bold text-green-900 dark:text-green-100">
-                주문이 완료되었습니다!
-              </h2>
-              <p className="text-green-700 dark:text-green-300 mt-1">
-                주문번호: {order.id}
-              </p>
+      {/* 주문 상태에 따른 메시지 */}
+      {order.status === "confirmed" && (
+        <Card className="bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800">
+          <CardContent className="p-6">
+            <div className="flex items-center gap-4">
+              <CheckCircle2 className="w-12 h-12 text-green-600 dark:text-green-400" />
+              <div>
+                <h2 className="text-2xl font-bold text-green-900 dark:text-green-100">
+                  주문이 완료되었습니다!
+                </h2>
+                <p className="text-green-700 dark:text-green-300 mt-1">
+                  주문번호: {order.id}
+                </p>
+              </div>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* 주문 정보 */}
@@ -166,7 +168,7 @@ export function OrderDetailContent({ order }: OrderDetailContentProps) {
             쇼핑 계속하기
           </Button>
         </Link>
-        <Link href="/orders" className="flex-1">
+        <Link href="/my" className="flex-1">
           <Button className="w-full">주문 내역 보기</Button>
         </Link>
       </div>

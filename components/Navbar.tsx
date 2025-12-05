@@ -20,6 +20,9 @@ const Navbar = () => {
         </Link>
         <SignedIn>
           <CartIcon />
+          <Link href="/my" className="text-sm hover:underline font-medium">
+            마이페이지
+          </Link>
           <Link href="/tasks" className="text-sm hover:underline">
             작업 목록
           </Link>
