@@ -9,7 +9,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { LuChevronLeft, LuChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { ProductListParams } from "@/types/product";
 
 interface PaginationProps {
@@ -83,7 +83,7 @@ export function Pagination({
         disabled={currentPage === 1}
         aria-label="이전 페이지"
       >
-        <LuChevronLeft className="w-4 h-4" />
+        <ChevronLeft className="w-4 h-4" />
       </Button>
 
       {/* 페이지 번호 */}
@@ -127,7 +127,7 @@ export function Pagination({
         disabled={currentPage === totalPages}
         aria-label="다음 페이지"
       >
-        <LuChevronRight className="w-4 h-4" />
+        <ChevronRight className="w-4 h-4" />
       </Button>
     </div>
   );

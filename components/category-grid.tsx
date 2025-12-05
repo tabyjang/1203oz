@@ -9,25 +9,25 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { CATEGORY_LIST } from "@/constants/categories";
 import {
-  LuShirt,
-  LuLaptop,
-  LuBook,
-  LuUtensils,
-  LuDumbbell,
-  LuSparkles,
-  LuHome,
-  LuPackage,
+  Shirt,
+  Laptop,
+  Book,
+  Utensils,
+  Dumbbell,
+  Sparkles,
+  Home,
+  Package,
 } from "lucide-react";
 
 // 카테고리별 아이콘 매핑
 const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
-  clothing: LuShirt,
-  electronics: LuLaptop,
-  books: LuBook,
-  food: LuUtensils,
-  sports: LuDumbbell,
-  beauty: LuSparkles,
-  home: LuHome,
+  clothing: Shirt,
+  electronics: Laptop,
+  books: Book,
+  food: Utensils,
+  sports: Dumbbell,
+  beauty: Sparkles,
+  home: Home,
 };
 
 interface CategoryGridProps {
@@ -38,7 +38,7 @@ export function CategoryGrid({ categoryCounts }: CategoryGridProps) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
       {CATEGORY_LIST.map((category) => {
-        const Icon = CATEGORY_ICONS[category.code] || LuPackage;
+        const Icon = CATEGORY_ICONS[category.code] || Package;
         const count = categoryCounts?.[category.code] || 0;
 
         return (

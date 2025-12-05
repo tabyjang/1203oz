@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select";
 import { CATEGORY_LIST, getCategoryName } from "@/constants/categories";
 import { SORT_OPTIONS, type SortOption } from "@/types/product";
-import { LuSearch, LuX } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { useState, useTransition } from "react";
 import type { ProductListParams } from "@/types/product";
 
@@ -86,7 +86,7 @@ export function ProductFilters({ currentParams }: ProductFiltersProps) {
         {/* 검색 */}
         <form onSubmit={handleSearch} className="flex-1">
           <div className="relative">
-            <LuSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <Input
               type="text"
               placeholder="상품명으로 검색..."
@@ -147,7 +147,7 @@ export function ProductFilters({ currentParams }: ProductFiltersProps) {
             disabled={isPending}
             className="w-full sm:w-auto"
           >
-            <LuX className="w-4 h-4 mr-2" />
+            <X className="w-4 h-4 mr-2" />
             초기화
           </Button>
         )}

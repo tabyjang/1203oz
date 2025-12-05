@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/product-card";
 import { CategoryGrid } from "@/components/category-grid";
 import { getFeaturedProducts, getProductCountsByCategory } from "@/actions/products";
-import { LuArrowRight, LuShoppingBag } from "lucide-react";
+import { ArrowRight, ShoppingBag } from "lucide-react";
 
 export default async function Home() {
   // 인기 상품 조회
@@ -36,7 +36,7 @@ export default async function Home() {
             <div className="flex gap-4 justify-center">
               <Link href="/products">
                 <Button size="lg" className="text-lg px-8">
-                  <LuShoppingBag className="w-5 h-5 mr-2" />
+                  <ShoppingBag className="w-5 h-5 mr-2" />
                   상품 둘러보기
                 </Button>
               </Link>
@@ -56,7 +56,7 @@ export default async function Home() {
             <Link href="/products">
               <Button variant="secondary" size="lg">
                 이벤트 상품 보기
-                <LuArrowRight className="w-4 h-4 ml-2" />
+                <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </Link>
           </div>
@@ -90,7 +90,7 @@ export default async function Home() {
               <Link href="/products">
                 <Button variant="outline">
                   전체 보기
-                  <LuArrowRight className="w-4 h-4 ml-2" />
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
             </div>

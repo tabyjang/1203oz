@@ -12,7 +12,7 @@ import { ProductCard } from "@/components/product-card";
 import type { Product } from "@/types/product";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { LuArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 interface ProductDetailPageProps {
   params: Promise<{
@@ -66,7 +66,7 @@ export default async function ProductDetailPage({
         {/* 뒤로가기 버튼 */}
         <Link href="/products" className="inline-block mb-6">
           <Button variant="ghost" size="sm">
-            <LuArrowLeft className="w-4 h-4 mr-2" />
+            <ArrowLeft className="w-4 h-4 mr-2" />
             상품 목록으로
           </Button>
         </Link>

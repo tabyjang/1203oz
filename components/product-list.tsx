@@ -8,7 +8,7 @@
 import { ProductCard } from "@/components/product-card";
 import { Pagination } from "@/components/pagination";
 import type { Product, ProductListParams } from "@/types/product";
-import { LuPackageSearch } from "lucide-react";
+import { PackageSearch } from "lucide-react";
 
 interface ProductListProps {
   products: Product[];
@@ -29,7 +29,7 @@ export function ProductList({
   if (products.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16">
-        <LuPackageSearch className="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" />
+        <PackageSearch className="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" />
         <h3 className="text-xl font-semibold mb-2">상품을 찾을 수 없습니다</h3>
         <p className="text-gray-600 dark:text-gray-400 text-center max-w-md">
           {currentParams.search

@@ -7,7 +7,7 @@
 
 "use server";
 
-import { createClerkSupabaseClient } from "@/lib/supabase/server";
+import { createPublicSupabaseClient } from "@/lib/supabase/server";
 import type { Product, ProductListParams, ProductListResponse } from "@/types/product";
 
 const PRODUCTS_PER_PAGE = 12;
@@ -21,7 +21,7 @@ export async function getProducts(
   params: ProductListParams = {}
 ): Promise<ProductListResponse> {
   try {
-    const supabase = await createClerkSupabaseClient();
+    const supabase = await createPublicSupabaseClient();
     const {
       page = 1,
       category,
@@ -98,7 +98,7 @@ export async function getProducts(
  */
 export async function getProductById(id: string): Promise<Product | null> {
   try {
-    const supabase = await createClerkSupabaseClient();
+    const supabase = await createPublicSupabaseClient();
 
     const { data, error } = await supabase
       .from("products")
@@ -129,7 +129,7 @@ export async function getProductById(id: string): Promise<Product | null> {
  */
 export async function getFeaturedProducts(limit: number = 8): Promise<Product[]> {
   try {
-    const supabase = await createClerkSupabaseClient();
+    const supabase = await createPublicSupabaseClient();
 
     const { data, error } = await supabase
       .from("products")
@@ -158,7 +158,7 @@ export async function getProductCountsByCategory(): Promise<
   Record<string, number>
 > {
   try {
-    const supabase = await createClerkSupabaseClient();
+    const supabase = await createPublicSupabaseClient();
 
     const { data, error } = await supabase
       .from("products")

@@ -11,7 +11,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { formatPrice, getStockStatus } from "@/lib/utils/format";
 import { getCategoryName } from "@/constants/categories";
 import type { Product } from "@/types/product";
-import { LuPackage, LuShoppingCart } from "lucide-react";
+import { Package, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface ProductCardProps {
@@ -29,7 +29,7 @@ export function ProductCard({ product, showCategory = false }: ProductCardProps)
         {/* 상품 이미지 영역 (플레이스홀더) */}
         <div className="relative w-full aspect-square bg-gray-100 dark:bg-gray-800 flex items-center justify-center overflow-hidden">
           <div className="text-center p-4">
-            <LuPackage className="w-16 h-16 mx-auto text-gray-400 dark:text-gray-600 mb-2" />
+            <Package className="w-16 h-16 mx-auto text-gray-400 dark:text-gray-600 mb-2" />
             <p className="text-xs text-gray-500 dark:text-gray-400">
               {product.name}
             </p>
@@ -106,7 +106,7 @@ export function ProductCard({ product, showCategory = false }: ProductCardProps)
               "품절"
             ) : (
               <>
-                <LuShoppingCart className="w-4 h-4" />
+                <ShoppingCart className="w-4 h-4" />
                 상세보기
               </>
             )}
