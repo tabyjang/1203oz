@@ -6,11 +6,11 @@
  */
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { formatPrice, getStockStatus } from "@/lib/utils/format";
 import { getCategoryName } from "@/constants/categories";
 import type { Product } from "@/types/product";
-import { Package, ShoppingCart, AlertCircle } from "lucide-react";
+import { Package, AlertCircle } from "lucide-react";
+import { AddToCartButton } from "@/components/add-to-cart-button";
 
 interface ProductDetailProps {
   product: Product;
@@ -116,32 +116,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
               </div>
             )}
 
-            {/* 장바구니 추가 버튼 (Phase 3에서 기능 구현) */}
+            {/* 장바구니 추가 버튼 */}
             <div className="pt-4 border-t">
-              <Button
-                size="lg"
-                className="w-full"
-                disabled={isOutOfStock}
-                onClick={() => {
-                  // Phase 3에서 장바구니 추가 기능 구현
-                  console.log("장바구니 추가 (Phase 3에서 구현 예정)");
-                }}
-              >
-                {isOutOfStock ? (
-                  <>
-                    <Package className="w-5 h-5 mr-2" />
-                    품절
-                  </>
-                ) : (
-                  <>
-                    <ShoppingCart className="w-5 h-5 mr-2" />
-                    장바구니에 추가
-                  </>
-                )}
-              </Button>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
-                * 장바구니 기능은 Phase 3에서 구현됩니다
-              </p>
+              <AddToCartButton product={product} />
             </div>
           </CardContent>
         </Card>

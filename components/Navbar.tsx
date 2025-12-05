@@ -4,6 +4,7 @@ import { SignedOut, SignInButton, SignedIn, UserButton, useAuth } from "@clerk/n
 import Link from "next/link";
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { CartIcon } from "@/components/cart-icon";
 
 const Navbar = () => {
   const { isSignedIn } = useAuth();
@@ -18,6 +19,7 @@ const Navbar = () => {
           상품
         </Link>
         <SignedIn>
+          <CartIcon />
           <Link href="/tasks" className="text-sm hover:underline">
             작업 목록
           </Link>

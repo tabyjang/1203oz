@@ -139,14 +139,24 @@ export async function getFeaturedProducts(limit: number = 8): Promise<Product[]>
       .limit(limit);
 
     if (error) {
-      console.error("Error fetching featured products:", error);
-      throw new Error("인기 상품을 불러오는 중 오류가 발생했습니다.");
+      console.error("Error fetching featured products:", {
+        message: error.message,
+        code: error.code,
+        details: error.details,
+        hint: error.hint,
+      });
+      // 에러 발생 시 빈 배열 반환 (페이지가 깨지지 않도록)
+      return [];
     }
 
     return (data as Product[]) || [];
   } catch (error) {
-    console.error("getFeaturedProducts error:", error);
-    throw error;
+    console.error("getFeaturedProducts error:", {
+      message: error instanceof Error ? error.message : String(error),
+      error,
+    });
+    // 에러 발생 시 빈 배열 반환 (페이지가 깨지지 않도록)
+    return [];
   }
 }
 
